@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ajo Ticketing</title>
+</head>
+<body>
+
+<h1>Month Ticketing System</h1>
+
+<input type="text" id="name" placeholder="Enter your name" />
+<button id="go">Go</button>
+
+<p id="result"></p>
+
+<script>
+document.getElementById("go").onclick = async () => {
+    const name = document.getElementById("name").value.trim();
+    if (!name) {
+        alert("Name required");
+        return;
+    }
+
+    const res = await fetch("/api/allocate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name })
+    });
+
+    const data = await res.json();
+    document.getElementById("result").textContent =
+        data.month || data.error;
+};
+</script>
+
+</body>
+</html>
