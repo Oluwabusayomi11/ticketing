@@ -14,21 +14,26 @@
 
 <script>
 document.getElementById("go").onclick = async () => {
-    const name = document.getElementById("name").value.trim();
-    if (!name) {
-        alert("Name required");
-        return;
-    }
+  const name = document.getElementById("name").value.trim();
+  if (!name) {
+    alert("Name required");
+    return;
+  }
 
+  try {
     const res = await fetch("/api/allocate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name })
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name })
     });
 
     const data = await res.json();
     document.getElementById("result").textContent =
-        data.month || data.error;
+      data.month || data.error;
+  } catch (err) {
+    console.error(err);
+    alert("Request failed");
+  }
 };
 </script>
 
